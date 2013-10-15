@@ -212,6 +212,7 @@ int parse_variable_list(
   char            name[JOB_ENV_START_SIZE];
   char           *s = NULL;
   char           *c = NULL;
+  char           *v = NULL;
   char           *delim = NULL;
 
   s = the_list;
@@ -244,9 +245,11 @@ int parse_variable_list(
 
       if (c != NULL)
         {
+        copy_env_value(c, &v);
         job_env += name;
         job_env += "=";
-        job_env += c;
+        job_env += v;
+        free(v); v = NULL;
         if (delim == NULL)
           s = NULL;
         else
